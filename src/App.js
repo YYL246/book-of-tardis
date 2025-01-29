@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import clickSound from './tardis.mp3';
 
 function App() {
   const quotes = [
@@ -32,10 +33,20 @@ function App() {
     "Love, in all its forms, is the most powerful weapon we have."
   ];
 
-  const [showLanding, setShowLanding] = React.useState(true);
-  const [currentQuote, setCurrentQuote] = React.useState(quotes[0]);
+  const [showLanding, setShowLanding] = useState(true);
+  const [currentQuote, setCurrentQuote] = useState(quotes[0]);
+  const [audio] = useState(new Audio(clickSound));
 
   const getRandomQuote = () => {
+    audio.currentTime = 0;  // Reset audio to start
+    audio.play();
+    
+    // Stop after 1 second
+    setTimeout(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }, 5800);
+
     const randomIndex = Math.floor(Math.random() * quotes.length);
     setCurrentQuote(quotes[randomIndex]);
     setShowLanding(false);
